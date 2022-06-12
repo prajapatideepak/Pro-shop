@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Rating from "../component/Rating";
-import products from "../products";
+import axios from "axios";
 export default function ProductScreen({ match }) {
-  var product = products.find((p) => p._id === match.params.id);
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const FetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+
+      setProduct(data);
+    };
+
+    FetchProduct();
+  }, []);
+
   return (
     <div className="px-8 lg:px-36 py-8 text-gray-600">
       <div className="mt-4 mb-8">
